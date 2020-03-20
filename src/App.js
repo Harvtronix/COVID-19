@@ -1,18 +1,61 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import getDatasets from './getDatasets';
+import alasql from 'alasql';
 
 function App() {
+  const [provinceState, setProvinceState] = useState('New York');
+  const [countryRegion, setCountryRegion] = useState('US');
+  const [countryRegionsToProvinceStates, setCountryRegionsToProvinceStates] = useState(null);
+
+  useEffect(() => {
+    const datasetToTableData = (dataset) => {
+      // TODO: Actually generate returned data from passed-in dataset param
+      return [
+        { provinceState: 'New York', countryRegion: 'US', date: new Date('1/22/20'), cases: '5' },
+        { provinceState: 'New York', countryRegion: 'US', date: new Date('1/23/20'), cases: '6' },
+        { provinceState: 'New Jersey', countryRegion: 'US', date: new Date('1/22/20'), cases: '10' },
+        { provinceState: 'New Jersey', countryRegion: 'US', date: new Date('1/23/20'), cases: '1' },
+      ];
+    };
+
+    // Get latest app data
+    getDatasets((confirmedDataset, deathsDataset, recoveredDataset, countryRegionsToProvinceStateMap) => {
+      const columnStatement = '(provinceState STRING, countryRegion STRING, date DATE, cases INT)'; // using 'cases' here instead of 'count' to avoid SQL conflicts
+      alasql(`CREATE TABLE confirmed ${columnStatement}`);
+      alasql(`CREATE TABLE deaths ${columnStatement}`);
+      alasql(`CREATE TABLE recovered ${columnStatement}`);
+
+      alasql.tables.confirmed.data = datasetToTableData(confirmedDataset);
+      alasql.tables.deaths.data = datasetToTableData(deathsDataset);
+      alasql.tables.recovered.data = datasetToTableData(recoveredDataset);
+
+      // TODO: Use this data to populate dropdown menu in UI, and update provinceState and countryRegion states.
+      setCountryRegionsToProvinceStates(countryRegionsToProvinceStateMap);
+    });
+  }, []);
+
+  if(!countryRegionsToProvinceStates) {
+    return 'Loading...';
+  }
+
+  const renderDatasets = () => {
+    return (
+      <>
+        {
+          JSON.stringify(alasql('SELECT * FROM confirmed WHERE provinceState = ? AND countryRegion = ?', [provinceState, countryRegion]))
+        }
+      </>
+    );
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-      </header>
       <p>
-        Hello, world!
+        I heard you like data!
       </p>
       <p>
-        Some additional text
+        { renderDatasets() }
       </p>
     </div>
   );
