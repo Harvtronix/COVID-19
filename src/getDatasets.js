@@ -44,9 +44,9 @@ const parseCsvData = (data) => {
  */
 const getDatasets = (callback) => {
   axios.all([
-    axios.get('/data/time_series_19-covid-Confirmed.csv'),
-    axios.get('/data/time_series_19-covid-Deaths.csv'),
-    axios.get('/data/time_series_19-covid-Recovered.csv')
+    axios.get('./data/time_series_19-covid-Confirmed.csv'),
+    axios.get('./data/time_series_19-covid-Deaths.csv'),
+    axios.get('./data/time_series_19-covid-Recovered.csv')
   ]).then(axios.spread((confirmedResponse, deathsResponse, recoveredResponse) => {
     let confirmedDataset = parseCsvData(confirmedResponse.data);
     let deathsDataset = parseCsvData(deathsResponse.data);
