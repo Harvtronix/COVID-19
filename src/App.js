@@ -1,49 +1,92 @@
 import React, { useEffect, useState } from 'react';
-import './App.css';
-import getDatasets from './getDatasets';
 import alasql from 'alasql';
 
+import './App.css';
+import getDatasets from './getDatasets';
+import LocationSelector from './components/LocationSelector';
+
 function App() {
-  const [provinceState, setProvinceState] = useState('New York');
-  const [countryRegion, setCountryRegion] = useState('US');
-  const [countryRegionsToProvinceStates, setCountryRegionsToProvinceStates] = useState(null);
+  const [countryRegion, setCountryRegion] = useState(null);
+  const [provinceState, setProvinceState] = useState(null);
+  const [countryRegionsToProvinceStates, setCountryRegionsToProvinceStates] = useState({});
+  const [sqlTableLoaded, setSqlTableLoaded] = useState(false);
 
+  const [confirmedDataset, setConfirmedDataset] = useState(null);
+  const [deathsDataset, setDeathsDataset] = useState(null);
+  const [recoveredDataset, setRecoveredDataset] = useState(null);
+
+  // Load datasets
   useEffect(() => {
-    const datasetToTableData = (dataset) => {
-      // TODO: Actually generate returned data from passed-in dataset param
-      return [
-        { provinceState: 'New York', countryRegion: 'US', date: new Date('1/22/20'), cases: '5' },
-        { provinceState: 'New York', countryRegion: 'US', date: new Date('1/23/20'), cases: '6' },
-        { provinceState: 'New Jersey', countryRegion: 'US', date: new Date('1/22/20'), cases: '10' },
-        { provinceState: 'New Jersey', countryRegion: 'US', date: new Date('1/23/20'), cases: '1' },
-      ];
-    };
-
-    // Get latest app data
-    getDatasets((confirmedDataset, deathsDataset, recoveredDataset, countryRegionsToProvinceStateMap) => {
-      const columnStatement = '(provinceState STRING, countryRegion STRING, date DATE, cases INT)'; // using 'cases' here instead of 'count' to avoid SQL conflicts
-      alasql(`CREATE TABLE confirmed ${columnStatement}`);
-      alasql(`CREATE TABLE deaths ${columnStatement}`);
-      alasql(`CREATE TABLE recovered ${columnStatement}`);
-
-      alasql.tables.confirmed.data = datasetToTableData(confirmedDataset);
-      alasql.tables.deaths.data = datasetToTableData(deathsDataset);
-      alasql.tables.recovered.data = datasetToTableData(recoveredDataset);
-
-      // TODO: Use this data to populate dropdown menu in UI, and update provinceState and countryRegion states.
-      setCountryRegionsToProvinceStates(countryRegionsToProvinceStateMap);
+    getDatasets((confirmedDataset, deathsDataset, recoveredDataset, countryRegionsToProvinceStatesMap) => {
+      setConfirmedDataset(confirmedDataset);
+      setDeathsDataset(deathsDataset);
+      setRecoveredDataset(recoveredDataset);
+      setCountryRegionsToProvinceStates(countryRegionsToProvinceStatesMap);
     });
   }, []);
 
-  if(!countryRegionsToProvinceStates) {
+  // Run after every update of provinceState or countryRegion
+  useEffect(() => {
+    if(!confirmedDataset || !deathsDataset || !recoveredDataset || !countryRegionsToProvinceStates) {
+      return;
+    }
+
+    const datasetToTableData = (dataset, countryRegionFilter, provinceStateFilter) => {
+      const tableData = [];
+      Object.entries(dataset).forEach((countryRegionDataEntry) => {
+        const countryRegion = countryRegionDataEntry[0];
+        const provinceStateData = countryRegionDataEntry[1];
+        Object.entries(provinceStateData).forEach((provinceStateDataEntry) => {
+          const provinceState = provinceStateDataEntry[0];
+          const provinceStateData = provinceStateDataEntry[1];
+          provinceStateData.dateData.forEach((dateDataItem) => {
+            tableData.push({ countryRegion, provinceState: provinceState, date: new Date(dateDataItem.date), cases: dateDataItem.cases });
+          });
+        });
+      });
+      return tableData;
+    };
+
+    alasql(`DROP TABLE IF EXISTS confirmed`);
+    alasql(`DROP TABLE IF EXISTS deaths`);
+    alasql(`DROP TABLE IF EXISTS recovered`);
+
+    const columnStatement = '(provinceState STRING, countryRegion STRING, date DATE, cases INT)'; // using 'cases' here instead of 'count' to avoid SQL conflicts
+    alasql(`CREATE TABLE confirmed ${columnStatement}`);
+    alasql(`CREATE TABLE deaths ${columnStatement}`);
+    alasql(`CREATE TABLE recovered ${columnStatement}`);
+
+    alasql.tables.confirmed.data = datasetToTableData(confirmedDataset, countryRegion, provinceState);
+    alasql.tables.deaths.data = datasetToTableData(deathsDataset, countryRegion, provinceState);
+    alasql.tables.recovered.data = datasetToTableData(recoveredDataset, countryRegion, provinceState);
+
+    setSqlTableLoaded(true);
+  }, [provinceState, countryRegion, confirmedDataset, deathsDataset, recoveredDataset, countryRegionsToProvinceStates]);
+
+  if(!confirmedDataset || !deathsDataset || !recoveredDataset) {
     return 'Loading...';
   }
 
   const renderDatasets = () => {
+    if(!sqlTableLoaded) return;
+
+    let query = 'SELECT * FROM confirmed';
+    let args = [];
+    if(countryRegion) {
+      query += ' WHERE countryRegion = ?'
+      args.push(countryRegion);
+
+      if(provinceState) {
+        query += ' AND provinceState = ?'
+        args.push(provinceState);
+      }
+    }
+    const queryResult = alasql(query, args);
+
     return (
       <>
         {
-          JSON.stringify(alasql('SELECT * FROM confirmed WHERE provinceState = ? AND countryRegion = ?', [provinceState, countryRegion]))
+          sqlTableLoaded ? `Found ${queryResult.length} data points.` : 'Loading data...'
         }
       </>
     );
@@ -51,9 +94,18 @@ function App() {
 
   return (
     <div className="App">
-      <p>
-        I heard you like data!
-      </p>
+      <LocationSelector
+        selectedProvinceState={provinceState}
+        selectedCountryRegion={countryRegion}
+        countryRegionsToProvinceStates={countryRegionsToProvinceStates}
+        onCountryRegionChange={(e) => {
+          setCountryRegion(e.target.value);
+          setProvinceState(null); // reset provinceState selection whenever a new countryRegion is selected
+        }}
+        onProvinceStateChange={(e) => {
+          setProvinceState(e.target.value);
+        }}
+      />
       <p>
         { renderDatasets() }
       </p>
