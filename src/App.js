@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import alasql from 'alasql';
 
 import './App.css';
-import getDatasets from './getDatasets';
-import BasicLineChart from './charts/line/BasicLineChart';
+import getDatasets from './modules/getDatasets';
+import BasicLineChart from './components/charts/line/BasicLineChart';
 import LocationSelector from './components/LocationSelector';
 
 function App() {
