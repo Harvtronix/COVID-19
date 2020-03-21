@@ -10,6 +10,7 @@
     "copy-webpack-plugin": "^5.1.1",
     "csv-parse": "^4.8.8",
     "d3": "^5.15.0",
+    "immer": "^6.0.2",
     "react": "^16.13.1",
     "react-app-rewired": "^2.1.5",
     "react-dom": "^16.13.1",
