@@ -3,7 +3,6 @@ import alasql from 'alasql';
 
 import './App.css';
 import getDatasets from './getDatasets';
-import alasql from 'alasql';
 import BasicLineChart from './charts/line/BasicLineChart';
 import LocationSelector from './components/LocationSelector';
 
