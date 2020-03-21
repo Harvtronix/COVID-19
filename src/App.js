@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import getDatasets from './getDatasets';
 import alasql from 'alasql';
+import BasicLineChart from './charts/line/BasicLineChart';
 
 function App() {
   const [provinceState, setProvinceState] = useState('New York');
@@ -57,6 +58,9 @@ function App() {
       <p>
         { renderDatasets() }
       </p>
+      <div className="LineChartContainer">
+        <BasicLineChart />
+      </div>
     </div>
   );
 }
