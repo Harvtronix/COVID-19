@@ -6,6 +6,8 @@ import getDatasets from './getDatasets';
 import LocationSelector from './components/LocationSelector';
 
 function App() {
+  const dataTableNames = ['confirmed', 'deaths', 'recovered'];
+
   const [countryRegion, setCountryRegion] = useState(null);
   const [provinceState, setProvinceState] = useState(null);
   const [countryRegionsToProvinceStates, setCountryRegionsToProvinceStates] = useState({});
@@ -47,47 +49,53 @@ function App() {
       return tableData;
     };
 
-    alasql(`DROP TABLE IF EXISTS confirmed`);
-    alasql(`DROP TABLE IF EXISTS deaths`);
-    alasql(`DROP TABLE IF EXISTS recovered`);
+    dataTableNames.forEach((tableName) => {
+      alasql(`DROP TABLE IF EXISTS ${tableName}`);
+    });
 
     const columnStatement = '(provinceState STRING, countryRegion STRING, date DATE, cases INT)'; // using 'cases' here instead of 'count' to avoid SQL conflicts
-    alasql(`CREATE TABLE confirmed ${columnStatement}`);
-    alasql(`CREATE TABLE deaths ${columnStatement}`);
-    alasql(`CREATE TABLE recovered ${columnStatement}`);
+    dataTableNames.forEach((tableName) => {
+      alasql(`CREATE TABLE ${tableName} ${columnStatement}`);
+    });
 
     alasql.tables.confirmed.data = datasetToTableData(confirmedDataset, countryRegion, provinceState);
     alasql.tables.deaths.data = datasetToTableData(deathsDataset, countryRegion, provinceState);
     alasql.tables.recovered.data = datasetToTableData(recoveredDataset, countryRegion, provinceState);
 
     setSqlTableLoaded(true);
-  }, [provinceState, countryRegion, confirmedDataset, deathsDataset, recoveredDataset, countryRegionsToProvinceStates]);
+  }, [provinceState, countryRegion, confirmedDataset, deathsDataset, recoveredDataset, countryRegionsToProvinceStates, dataTableNames]);
 
   if(!confirmedDataset || !deathsDataset || !recoveredDataset) {
     return 'Loading...';
   }
 
   const renderDatasets = () => {
-    if(!sqlTableLoaded) return;
+    if(!sqlTableLoaded) return 'Loading data...';
 
-    let query = 'SELECT * FROM confirmed';
-    let args = [];
-    if(countryRegion) {
-      query += ' WHERE countryRegion = ?'
-      args.push(countryRegion);
+    const [confirmedQueryResult, deathsQueryResult, recoveredQueryResult] = dataTableNames.map((tableName) => {
+      let query = `SELECT date, sum(cases) as cases FROM ${tableName}`;
+      let args = [];
+      if(countryRegion) {
+        query += ' WHERE countryRegion = ?'
+        args.push(countryRegion);
 
-      if(provinceState) {
-        query += ' AND provinceState = ?'
-        args.push(provinceState);
+        if(provinceState) {
+          query += ' AND provinceState = ?'
+          args.push(provinceState);
+        }
       }
-    }
-    const queryResult = alasql(query, args);
+      query += ' GROUP BY date ORDER BY date ASC';
+      return alasql(query, args);
+    });
 
     return (
       <>
-        {
-          sqlTableLoaded ? `Found ${queryResult.length} data points.` : 'Loading data...'
-        }
+        <h1>Confirmed</h1>
+        { JSON.stringify(confirmedQueryResult) }
+        <h1>Deaths</h1>
+        { JSON.stringify(deathsQueryResult) }
+        <h1>Recovered</h1>
+        { JSON.stringify(recoveredQueryResult) }
       </>
     );
   };
@@ -106,9 +114,7 @@ function App() {
           setProvinceState(e.target.value);
         }}
       />
-      <p>
-        { renderDatasets() }
-      </p>
+      { renderDatasets() }
     </div>
   );
 }
