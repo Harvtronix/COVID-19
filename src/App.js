@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import alasql from 'alasql';
 
 import './App.css';
-import getDatasets from './getDatasets';
+import getDatasets from './modules/getDatasets';
+import BasicLineChart from './components/charts/line/BasicLineChart';
 import LocationSelector from './components/LocationSelector';
 
 function App() {
@@ -69,8 +70,10 @@ function App() {
     return 'Loading...';
   }
 
-  const renderDatasets = () => {
-    if(!sqlTableLoaded) return 'Loading data...';
+  const queryData = () => {
+    if(!sqlTableLoaded) {
+      return null;
+    }
 
     const [confirmedQueryResult, deathsQueryResult, recoveredQueryResult] = dataTableNames.map((tableName) => {
       let query = `SELECT date, sum(cases) as cases FROM ${tableName}`;
@@ -87,6 +90,22 @@ function App() {
       query += ' GROUP BY date ORDER BY date ASC';
       return alasql(query, args);
     });
+
+    return {
+      confirmedQueryResult,
+      deathsQueryResult,
+      recoveredQueryResult
+    }
+  };
+
+  const renderDatasets = () => {
+    if(!sqlTableLoaded) return 'Loading data...';
+
+    const {
+      confirmedQueryResult,
+      deathsQueryResult,
+      recoveredQueryResult
+    } = queryData();
 
     return (
       <>
@@ -114,7 +133,15 @@ function App() {
           setProvinceState(e.target.value);
         }}
       />
-      { renderDatasets() }
+      {/* <p>
+        { renderDatasets() }
+      </p> */}
+      <div className="LineChartContainer">
+        {
+          /* TODO: memoize this because it is expensive */
+          sqlTableLoaded && <BasicLineChart queryResult={queryData()} />
+        }
+      </div>
     </div>
   );
 }
