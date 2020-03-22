@@ -70,8 +70,10 @@ function App() {
     return 'Loading...';
   }
 
-  const renderDatasets = () => {
-    if(!sqlTableLoaded) return 'Loading data...';
+  const queryData = () => {
+    if(!sqlTableLoaded) {
+      return null;
+    }
 
     const [confirmedQueryResult, deathsQueryResult, recoveredQueryResult] = dataTableNames.map((tableName) => {
       let query = `SELECT date, sum(cases) as cases FROM ${tableName}`;
@@ -88,6 +90,22 @@ function App() {
       query += ' GROUP BY date ORDER BY date ASC';
       return alasql(query, args);
     });
+
+    return {
+      confirmedQueryResult,
+      deathsQueryResult,
+      recoveredQueryResult
+    }
+  };
+
+  const renderDatasets = () => {
+    if(!sqlTableLoaded) return 'Loading data...';
+
+    const {
+      confirmedQueryResult,
+      deathsQueryResult,
+      recoveredQueryResult
+    } = queryData();
 
     return (
       <>
@@ -115,11 +133,14 @@ function App() {
           setProvinceState(e.target.value);
         }}
       />
-      <p>
+      {/* <p>
         { renderDatasets() }
-      </p>
+      </p> */}
       <div className="LineChartContainer">
-        <BasicLineChart />
+        {
+          /* TODO: memoize this because it is expensive */
+          sqlTableLoaded && <BasicLineChart queryResult={queryData()} />
+        }
       </div>
     </div>
   );
