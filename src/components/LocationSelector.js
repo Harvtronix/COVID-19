@@ -10,7 +10,7 @@ function LocationSelector(props) {
     : countryRegionsToProvinceStates[selectedCountryRegion].sort();
 
   return (
-    <div>
+    <div style={{marginBottom: '1em'}}>
         <select onChange={onCountryRegionChange} value={selectedCountryRegion || ''}>
           <option key={''} value="">- All Regions -</option>
           {countryRegionOptions.map((countryRegion) => <option key={countryRegion} value={countryRegion}>{countryRegion}</option> )}
@@ -18,7 +18,7 @@ function LocationSelector(props) {
 
         <select onChange={onProvinceStateChange} value={selectedProvinceState || ''}>
           <option key={''} value="">- All Subregions -</option>
-          {proviceStateOptions.map((provinceState) => <option key={provinceState} value={provinceState}>{provinceState}</option> )}
+          {proviceStateOptions.length > 1 && proviceStateOptions.map((provinceState) => <option key={provinceState} value={provinceState}>{provinceState}</option> )}
         </select>
     </div>
   );

@@ -5,7 +5,7 @@ import * as numeral from 'numeral';
 import { LineChart } from "@carbon/charts-react";
 import "@carbon/charts/styles.css";
 
-const BasicLineChart = ({chartData}) => {
+const BasicLineChart = ({chartData, chartTitle}) => {
 
   let datasets = Object.keys(chartData).map((setKey) => {
     let set = chartData[setKey]
@@ -32,7 +32,7 @@ const BasicLineChart = ({chartData}) => {
   }
 
   let options = {
-    "title": "COVID-19 Cases (time series)",
+    "title": chartTitle,
     "axes": {
       "left": {
         "secondary": true

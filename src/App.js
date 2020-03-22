@@ -82,6 +82,10 @@ function App() {
     Deaths: deathsQueryResult,
     Recovered: recoveredQueryResult
   }
+  let chartTitle = 'COVID-19 Cases'
+    + ((provinceState || countryRegion) ? ':' : '')
+    + (provinceState ? ` ${provinceState},` : '')
+    + (countryRegion ? ` ${countryRegion}` : '');
 
   return (
     <div className="App">
@@ -99,7 +103,7 @@ function App() {
       />
       <div className="LineChartContainer">
         {
-          <BasicLineChart chartData={chartData} />
+          <BasicLineChart chartTitle={chartTitle} chartData={chartData} />
         }
       </div>
     </div>
