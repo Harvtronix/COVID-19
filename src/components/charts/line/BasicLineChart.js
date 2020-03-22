@@ -1,12 +1,14 @@
 import React from "react";
+import * as moment from 'moment';
+import * as numeral from 'numeral';
 
 import { LineChart } from "@carbon/charts-react";
 import "@carbon/charts/styles.css";
 
-const BasicLineChart = ({queryResult}) => {
+const BasicLineChart = ({chartData}) => {
 
-  let datasets = Object.keys(queryResult).map((setKey) => {
-    let set = queryResult[setKey]
+  let datasets = Object.keys(chartData).map((setKey) => {
+    let set = chartData[setKey]
 
     for (let entry of set) {
       entry.value = entry.cases
@@ -30,7 +32,7 @@ const BasicLineChart = ({queryResult}) => {
   }
 
   let options = {
-    "title": "Line (time series)",
+    "title": "COVID-19 Cases (time series)",
     "axes": {
       "left": {
         "secondary": true
@@ -44,12 +46,18 @@ const BasicLineChart = ({queryResult}) => {
     "height": "5in",
     tooltip: {
       customHTML: function (arg) {
+        console.log(arg);
         if ('date' in arg && 'value' in arg) {
           return `
-          <div class="datapoint-tooltip">
-            <a style="background-color:#000" class="tooltip-color"></a>
-            <p class="label">${arg.date}</p>
-            <p class="value">${arg.value}</p>
+          <div>
+            <div class="datapoint-tooltip">
+              <a style="background-color:#000" class="tooltip-color"></a>
+              <p class="label"><strong>${arg.datasetLabel}:</strong> ${numeral(arg.value).format('0,0')}</p>
+            </div>
+            <div class="datapoint-tooltip">
+              <a style="background-color:#000" class="tooltip-color"></a>
+              <p class="label"><strong>Date:</strong> ${moment(arg.date.toISOString()).format('YYYY-MM-DD')}</p>
+            </div>
           </div>
           `
         } else {

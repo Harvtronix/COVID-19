@@ -76,7 +76,12 @@ function App() {
     }
   };
 
-  const queryData = queryDateCounts();
+  const {confirmedQueryResult, deathsQueryResult, recoveredQueryResult} = queryDateCounts();
+  const chartData = {
+    Confirmed: confirmedQueryResult,
+    Deaths: deathsQueryResult,
+    Recovered: recoveredQueryResult
+  }
 
   return (
     <div className="App">
@@ -94,7 +99,7 @@ function App() {
       />
       <div className="LineChartContainer">
         {
-          <BasicLineChart queryResult={queryData} />
+          <BasicLineChart chartData={chartData} />
         }
       </div>
     </div>
