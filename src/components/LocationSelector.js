@@ -12,12 +12,12 @@ function LocationSelector(props) {
   return (
     <div>
         <select onChange={onCountryRegionChange} value={selectedCountryRegion || ''}>
-          <option key={''} value="" disabled>Choose a country / region</option>
+          <option key={''} value="">- All Regions -</option>
           {countryRegionOptions.map((countryRegion) => <option key={countryRegion} value={countryRegion}>{countryRegion}</option> )}
         </select>
 
         <select onChange={onProvinceStateChange} value={selectedProvinceState || ''}>
-          <option key={''} value="" disabled>Choose a province / state</option>
+          <option key={''} value="">- All Subregions -</option>
           {proviceStateOptions.map((provinceState) => <option key={provinceState} value={provinceState}>{provinceState}</option> )}
         </select>
     </div>
