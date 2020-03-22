@@ -27,58 +27,6 @@ const BasicLineChart = ({queryResult}) => {
       "Misc"
     ],
     datasets
-    // "datasets": [
-    //     {
-    //         "label": "Dataset 1",
-    //         "data": [
-    //             {
-    //                 "date": "2019-01-01T05:00:00.000Z",
-    //                 "value": 10000
-    //             },
-    //             {
-    //                 "date": "2019-01-05T05:00:00.000Z",
-    //                 "value": 65000
-    //             },
-    //             {
-    //                 "date": "2019-01-08T05:00:00.000Z",
-    //                 "value": null
-    //             },
-    //             {
-    //                 "date": "2019-01-13T05:00:00.000Z",
-    //                 "value": 49213
-    //             },
-    //             {
-    //                 "date": "2019-01-17T05:00:00.000Z",
-    //                 "value": 51213
-    //             }
-    //         ]
-    //     },
-    //     {
-    //         "label": "Dataset 2",
-    //         "data": [
-    //             {
-    //                 "date": "2019-01-02T05:00:00.000Z",
-    //                 "value": 0
-    //             },
-    //             {
-    //                 "date": "2019-01-06T05:00:00.000Z",
-    //                 "value": 57312
-    //             },
-    //             {
-    //                 "date": "2019-01-08T05:00:00.000Z",
-    //                 "value": 21432
-    //             },
-    //             {
-    //                 "date": "2019-01-15T05:00:00.000Z",
-    //                 "value": 70323
-    //             },
-    //             {
-    //                 "date": "2019-01-19T05:00:00.000Z",
-    //                 "value": 21300
-    //             }
-    //         ]
-    //     }
-    // ]
   }
 
   let options = {
@@ -93,7 +41,22 @@ const BasicLineChart = ({queryResult}) => {
       }
     },
     "curve": "curveMonotoneX",
-    "height": "400px"
+    "height": "5in",
+    tooltip: {
+      customHTML: function (arg) {
+        if ('date' in arg && 'value' in arg) {
+          return `
+          <div class="datapoint-tooltip">
+            <a style="background-color:#000" class="tooltip-color"></a>
+            <p class="label">${arg.date}</p>
+            <p class="value">${arg.value}</p>
+          </div>
+          `
+        } else {
+          return null
+        }
+      }
+    }
   }
 
   return (
