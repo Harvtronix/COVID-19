@@ -137,10 +137,14 @@ const csvToNestedDataset = (csvArr) => {
  * @param {datasetsCallback} callback - A callback to run.
  */
 const getDatasets = (callback) => {
+  const noCacheAxios = axios.create({
+    headers: {'Cache-Control': 'no-cache'}
+  });
+
   axios.all([
-    axios.get('./data/time_series_19-covid-Confirmed.csv'),
-    axios.get('./data/time_series_19-covid-Deaths.csv'),
-    axios.get('./data/time_series_19-covid-Recovered.csv')
+    noCacheAxios.get('./data/time_series_19-covid-Confirmed.csv'),
+    noCacheAxios.get('./data/time_series_19-covid-Deaths.csv'),
+    noCacheAxios.get('./data/time_series_19-covid-Recovered.csv')
   ]).then(axios.spread((confirmedResponse, deathsResponse, recoveredResponse) => {
     const confirmedDataset = csvToNestedDataset(parseCsvData(confirmedResponse.data));
     const deathsDataset = csvToNestedDataset(parseCsvData(deathsResponse.data));
