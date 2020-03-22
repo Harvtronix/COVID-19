@@ -112,7 +112,7 @@ const csvToNestedDataset = (csvArr) => {
       const date = headerRow[j];
       provinceStateDateData.push({
         date: new Date(date),
-        cases: cellValue
+        cases: parseInt(cellValue)
       });
     });
   });
