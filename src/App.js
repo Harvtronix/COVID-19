@@ -12,31 +12,7 @@ function App() {
   const [countryRegion, setCountryRegion] = useState(null);
   const [provinceState, setProvinceState] = useState(null);
   const [countryRegionsToProvinceStates, setCountryRegionsToProvinceStates] = useState({});
-  const [queryData, setQueryData] = useState(null);
-
-  const queryDateCounts = () => {
-    const [confirmedQueryResult, deathsQueryResult, recoveredQueryResult] = dataTableNames.map((tableName) => {
-      let query = `SELECT date, sum(cases) as cases FROM ${tableName}`;
-      let args = [];
-      if(countryRegion) {
-        query += ' WHERE countryRegion = ?'
-        args.push(countryRegion);
-
-        if(provinceState) {
-          query += ' AND provinceState = ?'
-          args.push(provinceState);
-        }
-      }
-      query += ' GROUP BY date ORDER BY date ASC';
-      return alasql(query, args);
-    });
-
-    return {
-      confirmedQueryResult,
-      deathsQueryResult,
-      recoveredQueryResult
-    }
-  };
+  const [sqlTablesLoaded, setSqlTablesLoaded] = useState(false);
 
   // Load datasets
   useEffect(() => {
@@ -67,14 +43,40 @@ function App() {
       alasql.tables.recovered.data = datasetToTableData(recoveredDataset);
 
       setCountryRegionsToProvinceStates(countryRegionsToProvinceStatesMap);
-      setQueryData(queryDateCounts());
+      setSqlTablesLoaded(true);
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if(!queryData) {
+  if(!sqlTablesLoaded) {
     return 'Loading...';
   }
+
+  const queryDateCounts = () => {
+    const [confirmedQueryResult, deathsQueryResult, recoveredQueryResult] = dataTableNames.map((tableName) => {
+      let query = `SELECT date, sum(cases) as cases FROM ${tableName}`;
+      let args = [];
+      if(countryRegion) {
+        query += ' WHERE countryRegion = ?'
+        args.push(countryRegion);
+
+        if(provinceState) {
+          query += ' AND provinceState = ?'
+          args.push(provinceState);
+        }
+      }
+      query += ' GROUP BY date ORDER BY date ASC';
+      return alasql(query, args);
+    });
+
+    return {
+      confirmedQueryResult,
+      deathsQueryResult,
+      recoveredQueryResult
+    }
+  };
+
+  const queryData = queryDateCounts();
 
   return (
     <div className="App">
@@ -85,11 +87,9 @@ function App() {
         onCountryRegionChange={(e) => {
           setCountryRegion(e.target.value === '' ? null : e.target.value);
           setProvinceState(null); // reset provinceState selection whenever a new countryRegion is selected
-          setQueryData(queryDateCounts());
         }}
         onProvinceStateChange={(e) => {
           setProvinceState(e.target.value === '' ? null : e.target.value);
-          setQueryData(queryDateCounts());
         }}
       />
       <div className="LineChartContainer">
