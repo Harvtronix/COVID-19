@@ -82,10 +82,14 @@ function App() {
     Deaths: deathsQueryResult,
     Recovered: recoveredQueryResult
   }
-  let chartTitle = 'COVID-19 Cases'
-    + ((provinceState || countryRegion) ? ':' : '')
-    + (provinceState ? ` ${provinceState},` : '')
-    + (countryRegion ? ` ${countryRegion}` : '');
+  let chartTitle = 'COVID-19 Cases: ';
+  if(provinceState || countryRegion) {
+    chartTitle += (provinceState ? ` ${provinceState},` : '')
+      + (countryRegion ? ` ${countryRegion}` : '');
+  } else {
+    chartTitle += 'Global';
+  }
+
 
   return (
     <div className="App">
