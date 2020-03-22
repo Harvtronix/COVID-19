@@ -46,7 +46,6 @@ const BasicLineChart = ({chartData, chartTitle}) => {
     "height": "5in",
     tooltip: {
       customHTML: function (arg) {
-        console.log(arg);
         if ('date' in arg && 'value' in arg) {
           return `
           <div>
