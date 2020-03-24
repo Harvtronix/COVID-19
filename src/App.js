@@ -78,9 +78,18 @@ function App() {
 
   const {confirmedQueryResult, deathsQueryResult, recoveredQueryResult} = queryDateCounts();
   const chartData = {
-    Confirmed: confirmedQueryResult,
-    Deaths: deathsQueryResult,
-    Recovered: recoveredQueryResult
+    Confirmed: {
+      data: confirmedQueryResult,
+      color: '#6F44C5'
+    },
+    Deaths: {
+      data: deathsQueryResult,
+      color: '#266060'
+    },
+    Recovered: {
+      data: recoveredQueryResult,
+      color: '#539CE3'
+    }
   }
   let chartTitle = 'COVID-19 Cases: ';
   if(provinceState || countryRegion) {
