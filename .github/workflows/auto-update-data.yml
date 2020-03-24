@@ -3,11 +3,8 @@
 name: Auto-Update Data
 
 on:
-  push:
-    branches:
-      - master
-  # schedule:
-  #   - cron:  '0 */6 * * *'
+  schedule:
+    - cron:  '0 */6 * * *'
 
 jobs:
   auto-update-data:
