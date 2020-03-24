@@ -24,9 +24,7 @@ const BasicLineChart = ({chartData, chartTitle}) => {
     labels: [
       "Qty",
       "More",
-      "Sold",
-      "Restocking",
-      "Misc"
+      "Sold"
     ],
     datasets
   }
