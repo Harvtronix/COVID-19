@@ -1,6 +1,6 @@
 {
   "name": "my-corona",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "dependencies": {
     "@carbon/charts": "^0.30.2",
     "@carbon/charts-react": "^0.30.2",
