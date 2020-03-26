@@ -6,6 +6,7 @@ import BasicLineChart from './components/charts/line/BasicLineChart';
 import LocationSelector from './components/LocationSelector';
 import Colors from './modules/Colors';
 import tableData from './data/tableData.json';
+import sortedCountryRegionsToProvinceStates from './data/sortedCountryRegionsToProvinceStates.json';
 
 function App() {
   const casesTableName = 'cases';
@@ -23,7 +24,6 @@ function App() {
 
   const [countryRegion, setCountryRegion] = useState(null);
   const [provinceState, setProvinceState] = useState(null);
-  const [countryRegionsToProvinceStates, setCountryRegionsToProvinceStates] = useState({});
   const [sqlTablesLoaded, setSqlTablesLoaded] = useState(false);
 
   // Load datasets
@@ -38,8 +38,6 @@ function App() {
     `;
     alasql(createTableQuery);
     alasql.tables.cases.data = tableData;
-
-    setCountryRegionsToProvinceStates({});
     setSqlTablesLoaded(true);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -89,7 +87,7 @@ function App() {
       <LocationSelector
         selectedProvinceState={provinceState}
         selectedCountryRegion={countryRegion}
-        countryRegionsToProvinceStates={countryRegionsToProvinceStates}
+        countryRegionsToProvinceStates={sortedCountryRegionsToProvinceStates}
         onCountryRegionChange={(e) => {
           setCountryRegion(e.target.value === '' ? null : e.target.value);
           setProvinceState(null); // reset provinceState selection whenever a new countryRegion is selected
