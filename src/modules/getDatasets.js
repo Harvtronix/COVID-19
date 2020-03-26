@@ -11,7 +11,6 @@ const FIRST_DATE_COLUMN = 4;
  * Parses CSV data and returns a 2D array
  * @param {string} data - CSV data in string form.
  * @returns {string[][]} A 2D array version of the input CSV data.
- * @returns {string[][]} A 2D array version of the input CSV data.
  */
 const parseCsvData = (data) => {
   const csvParser = csvParse();
@@ -111,7 +110,7 @@ const csvToNestedDataset = (csvArr) => {
 
       const date = headerRow[j];
       provinceStateDateData.push({
-        date: new Date(date),
+        date: new Date(date).toISOString(),
         cases: parseInt(cellValue)
       });
     });
@@ -154,8 +153,9 @@ const getDatasets = (callback) => {
     // superset of locations in deaths and recovered datasets.
     const countryRegionsToProvinceStatesMap = {};
     Object.entries(confirmedDataset).forEach((entry) => {
-      countryRegionsToProvinceStatesMap[entry[0]] = Object.keys(entry[1]);
+      countryRegionsToProvinceStatesMap[entry[0]] = Object.keys(entry[1]).sort(); // want to sort provinceStates list
     });
+    countryRegionsToProvinceStatesMap.sort(); // want to sort countryRegions
 
     callback(
       confirmedDataset,
