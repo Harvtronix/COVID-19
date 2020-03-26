@@ -1,33 +1,13 @@
 import React from 'react';
-import moment from 'moment';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import _ from 'lodash';
 
-const BasicLineChart = ({chartData, chartTitle}) => {
-
-  const datesToChartData = {};
-
-  Object.entries(chartData).forEach(([key, val]) => {
-    const label = key;
-    const data = val.data;
-
-    data.forEach((dataPoint) => {
-      const dateString = moment(dataPoint.date.toISOString()).format('YYYY-MM-DD');
-      datesToChartData[dateString] = datesToChartData[dateString] || {
-        name: dateString
-      };
-      const dataForDate = datesToChartData[dateString];
-      dataForDate[label] = dataPoint.cases;
-    });
-  });
-
-  const data = _.sortBy(Object.values(datesToChartData), ['name']);
+const BasicLineChart = ({chartData, chartTitle, caseTypeConfig}) => {
   return (
     <>
     <h1 style={{fontSize: '2em', marginBottom: '.5em'}}>{chartTitle}</h1>
     <ResponsiveContainer height={400}>
       <LineChart
-          data={data}
+          data={chartData}
           margin={{
             top: 5, right: 30, left: 20, bottom: 5,
           }}
@@ -37,7 +17,7 @@ const BasicLineChart = ({chartData, chartTitle}) => {
           <YAxis />
           <Tooltip />
           <Legend />
-          { Object.entries(chartData).map(([key, value]) => (
+          { Object.entries(caseTypeConfig).map(([key, value]) => (
             <Line type="monotone" dataKey={key} stroke={value.color} key={key} />
           )) }
         </LineChart>
