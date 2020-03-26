@@ -5,6 +5,7 @@ import './App.css';
 import getDatasets from './modules/getDatasets';
 import BasicLineChart from './components/charts/line/BasicLineChart';
 import LocationSelector from './components/LocationSelector';
+import Colors from './modules/Colors';
 
 function App() {
   const dataTableNames = ['confirmed', 'deaths', 'recovered'];
@@ -80,15 +81,15 @@ function App() {
   const chartData = {
     Confirmed: {
       data: confirmedQueryResult,
-      color: '#6F44C5'
+      color: Colors.lineConfirmed
     },
     Deaths: {
       data: deathsQueryResult,
-      color: '#266060'
+      color: Colors.lineDeaths
     },
     Recovered: {
       data: recoveredQueryResult,
-      color: '#539CE3'
+      color: Colors.lineRecovered
     }
   }
   let chartTitle = 'COVID-19 Cases: ';

@@ -1,14 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Select, SelectItem } from 'carbon-components-react'
 
-function LocationSelector({
-  selectedProvinceState,
-  selectedCountryRegion,
-  countryRegionsToProvinceStates,
-  onCountryRegionChange,
-  onProvinceStateChange
-}) {
+function LocationSelector(props) {
+  const {selectedProvinceState, selectedCountryRegion, countryRegionsToProvinceStates, onCountryRegionChange, onProvinceStateChange} = props;
 
   const countryRegionOptions = Object.keys(countryRegionsToProvinceStates).sort();
   const proviceStateOptions = selectedCountryRegion == null
@@ -17,35 +11,19 @@ function LocationSelector({
 
   return (
     <div style={{marginBottom: '1em'}}>
-        <Select
-          id="region-select"
-          labelText="Select a region"
+        <select
           onChange={onCountryRegionChange}
           value={selectedCountryRegion || ''}
+          style={{margin: '1rem'}}
         >
-          <SelectItem text="- All Regions -" value="" />
-          {
-            countryRegionOptions.map((countryRegion) => (
-              <SelectItem key={countryRegion} text={countryRegion} value={countryRegion} />
-            ))
-          }
-        </Select>
+          <option key={''} value="">- All Regions -</option>
+          {countryRegionOptions.map((countryRegion) => <option key={countryRegion} value={countryRegion}>{countryRegion}</option> )}
+        </select>
 
-        <div style={{height: '1em'}}></div>
-
-        <Select
-          id="sub-region-select"
-          labelText="Select a sub-region"
-          onChange={onProvinceStateChange}
-          value={selectedProvinceState || ''}
-        >
-          <SelectItem text="- All Sub-regions -" value="" />
-          {
-            proviceStateOptions.length > 1 && proviceStateOptions.map((provinceState) => (
-              <SelectItem key={provinceState} text={provinceState} value={provinceState} />
-            ))
-          }
-        </Select>
+        <select onChange={onProvinceStateChange} value={selectedProvinceState || ''} style={{margin: '1rem'}}>
+          <option key={''} value="">- All Subregions -</option>
+          {proviceStateOptions.length > 1 && proviceStateOptions.map((provinceState) => <option key={provinceState} value={provinceState}>{provinceState}</option> )}
+        </select>
     </div>
   );
 }
