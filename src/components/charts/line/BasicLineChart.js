@@ -1,72 +1,49 @@
-import React from "react";
-import * as moment from 'moment';
-import * as numeral from 'numeral';
-
-import { LineChart } from "@carbon/charts-react";
-import "@carbon/charts/styles.css";
+import React from 'react';
+import moment from 'moment';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import _ from 'lodash';
 
 const BasicLineChart = ({chartData, chartTitle}) => {
 
-  let datasets = Object.keys(chartData).map((setKey) => {
-    let set = chartData[setKey]
+  const datesToChartData = {};
 
-    for (let entry of set) {
-      entry.value = entry.cases
-    }
+  Object.entries(chartData).forEach(([key, val]) => {
+    const label = key;
+    const data = val.data;
 
-    return {
-      label: setKey,
-      data: set
-    }
-  })
+    data.forEach((dataPoint) => {
+      const dateString = moment(dataPoint.date.toISOString()).format('YYYY-MM-DD');
+      datesToChartData[dateString] = datesToChartData[dateString] || {
+        name: dateString
+      };
+      const dataForDate = datesToChartData[dateString];
+      dataForDate[label] = dataPoint.cases;
+    });
+  });
 
-  let data = {
-    labels: [
-      "Qty",
-      "More",
-      "Sold"
-    ],
-    datasets
-  }
-
-  let options = {
-    "title": chartTitle,
-    "axes": {
-      "left": {
-        "secondary": true
-      },
-      "bottom": {
-        "scaleType": "time",
-        "primary": true
-      }
-    },
-    "curve": "curveMonotoneX",
-    "height": "5in",
-    tooltip: {
-      customHTML: function (arg) {
-        if ('date' in arg && 'value' in arg) {
-          return `
-          <div>
-            <div class="datapoint-tooltip">
-              <a style="background-color:#000" class="tooltip-color"></a>
-              <p class="label"><strong>${arg.datasetLabel}:</strong> ${numeral(arg.value).format('0,0')}</p>
-            </div>
-            <div class="datapoint-tooltip">
-              <a style="background-color:#000" class="tooltip-color"></a>
-              <p class="label"><strong>Date:</strong> ${moment(arg.date.toISOString()).format('YYYY-MM-DD')}</p>
-            </div>
-          </div>
-          `
-        } else {
-          return null
-        }
-      }
-    }
-  }
-
+  const data = _.sortBy(Object.values(datesToChartData), ['name']);
   return (
-    <LineChart data={data} options={options} />
-    )
-  }
+    <>
+    <h1 style={{fontSize: '2em', marginBottom: '.5em'}}>{chartTitle}</h1>
+    <ResponsiveContainer height={400}>
+      <LineChart
+          data={data}
+          margin={{
+            top: 5, right: 30, left: 20, bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          { Object.entries(chartData).map(([key, value]) => (
+            <Line type="monotone" dataKey={key} stroke={value.color} key={key} />
+          )) }
+        </LineChart>
+      </ResponsiveContainer>
+    </>
+  );
+};
 
-  export default BasicLineChart
+  export default BasicLineChart;
