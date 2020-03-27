@@ -30,5 +30,14 @@ jobs:
           git merge upstream/master -m "Auto-sync changes from upstream
           `git log -1`"
 
+      - name: Install project modules in preparation for data build script run
+        run: npm install
+
+      - name: Rebuild source data from latest datasets
+        run: node ./src/scripts/build-data-files.js
+
+      - name: Commit updated source data
+        run: git add ./src/data/ && git commit -m "Auto-rebuild src/data files" || echo "Skipping commit because there are no changes to commit."
+
       - name: Push master
         run: git push
