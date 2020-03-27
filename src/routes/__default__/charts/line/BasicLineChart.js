@@ -1,6 +1,6 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import Colors from '../../../modules/Colors';
+import Colors from '../../../../modules/Colors';
 
 const BasicLineChart = ({chartData, chartTitle, caseTypeConfig}) => {
   return (
