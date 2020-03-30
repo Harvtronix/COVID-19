@@ -44,7 +44,7 @@ const BasicLineChart = ({chartData, caseTypeConfig}) => {
         <LineChart
           data={chartData}
           margin={{
-            top: 0, right: 16, left: 16, bottom: 0,
+            top: 0, right: 4, left: 8, bottom: 0,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />

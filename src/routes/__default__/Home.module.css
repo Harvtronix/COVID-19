@@ -1,0 +1,12 @@
+.Container {
+    display: flex;
+    flex-flow: row wrap;
+    margin: 0.5rem;
+}
+
+.Left {
+    flex: 2;
+    min-width: 500px;
+    margin: 0.5rem;
+    margin-bottom: 4rem;
+}

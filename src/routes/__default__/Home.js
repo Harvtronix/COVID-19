@@ -3,11 +3,14 @@ import alasql from 'alasql';
 
 import TitleContext from '../../components/TitleContext';
 
+import css from './Home.module.css';
+
 import BasicLineChart from './charts/line/BasicLineChart';
 import LocationSelector from '../../components/LocationSelector';
 import Colors from '../../modules/Colors';
 import tableData from '../../data/tableData.json';
 import sortedCountryRegionsToProvinceStates from '../../data/sortedCountryRegionsToProvinceStates.json';
+import Right from './right/Right';
 
 const Home = () => {
   const casesTableName = 'cases';
@@ -90,28 +93,37 @@ const Home = () => {
 
   const chartData = generateChartData();
 
-  return (
-    <>
-      <LocationSelector
-        selectedProvinceState={provinceState}
-        selectedCountryRegion={countryRegion}
-        countryRegionsToProvinceStates={sortedCountryRegionsToProvinceStates}
-        onCountryRegionChange={(e) => {
-          setCountryRegion(e.target.value === '' ? null : e.target.value);
-          setProvinceState(null); // reset provinceState selection whenever a new countryRegion is selected
-          updateTitle();
-        }}
-        onProvinceStateChange={(e) => {
-          setProvinceState(e.target.value === '' ? null : e.target.value);
-          updateTitle();
-        }}
-      />
-      <div className="LineChartContainer">
-        {
-          <BasicLineChart chartData={chartData} caseTypeConfig={caseTypeConfig} />
-        }
+  const Left = () => {
+    return (
+      <div className={css.Left}>
+        <LocationSelector
+          selectedProvinceState={provinceState}
+          selectedCountryRegion={countryRegion}
+          countryRegionsToProvinceStates={sortedCountryRegionsToProvinceStates}
+          onCountryRegionChange={(e) => {
+            setCountryRegion(e.target.value === '' ? null : e.target.value);
+            setProvinceState(null); // reset provinceState selection whenever a new countryRegion is selected
+            updateTitle();
+          }}
+          onProvinceStateChange={(e) => {
+            setProvinceState(e.target.value === '' ? null : e.target.value);
+            updateTitle();
+          }}
+        />
+        <div className="LineChartContainer">
+          {
+            <BasicLineChart chartData={chartData} caseTypeConfig={caseTypeConfig} />
+          }
+        </div>
       </div>
-    </>
+    )
+  }
+
+  return (
+    <div className={css.Container}>
+      <Left />
+      <Right />
+    </div>
   )
 }
 
