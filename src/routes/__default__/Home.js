@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import alasql from 'alasql';
 
+import TitleContext from '../../components/TitleContext';
 
 import BasicLineChart from './charts/line/BasicLineChart';
 import LocationSelector from '../../components/LocationSelector';
@@ -25,6 +26,19 @@ const Home = () => {
   const [countryRegion, setCountryRegion] = useState(null);
   const [provinceState, setProvinceState] = useState(null);
   const [sqlTablesLoaded, setSqlTablesLoaded] = useState(false);
+  const {setTitle} = useContext(TitleContext);
+
+  const updateTitle = () => {
+    let chartTitle = 'COVID-19 Cases: ';
+    if(provinceState || countryRegion) {
+      chartTitle += (provinceState ? ` ${provinceState},` : '')
+        + (countryRegion ? ` ${countryRegion}` : '');
+    } else {
+      chartTitle += 'Global';
+    }
+
+    setTitle(chartTitle);
+  }
 
   // Load datasets
   useEffect(() => {
@@ -39,6 +53,8 @@ const Home = () => {
     alasql(createTableQuery);
     alasql.tables.cases.data = tableData;
     setSqlTablesLoaded(true);
+
+    updateTitle();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -74,14 +90,6 @@ const Home = () => {
 
   const chartData = generateChartData();
 
-  let chartTitle = 'COVID-19 Cases: ';
-  if(provinceState || countryRegion) {
-    chartTitle += (provinceState ? ` ${provinceState},` : '')
-      + (countryRegion ? ` ${countryRegion}` : '');
-  } else {
-    chartTitle += 'Global';
-  }
-
   return (
     <>
       <LocationSelector
@@ -91,14 +99,16 @@ const Home = () => {
         onCountryRegionChange={(e) => {
           setCountryRegion(e.target.value === '' ? null : e.target.value);
           setProvinceState(null); // reset provinceState selection whenever a new countryRegion is selected
+          updateTitle();
         }}
         onProvinceStateChange={(e) => {
           setProvinceState(e.target.value === '' ? null : e.target.value);
+          updateTitle();
         }}
       />
       <div className="LineChartContainer">
         {
-          <BasicLineChart chartTitle={chartTitle} chartData={chartData} caseTypeConfig={caseTypeConfig} />
+          <BasicLineChart chartData={chartData} caseTypeConfig={caseTypeConfig} />
         }
       </div>
     </>

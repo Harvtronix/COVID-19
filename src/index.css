@@ -8,9 +8,37 @@ body {
 
   background-color: #202020;
   color: #e0e0e0;
+  font-size: 16px;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+/* small devices */
+@media (max-width: 800px) {
+  .sm {
+    display: inherit;
+  }
+  .lg {
+    display: none;
+  }
+  .content {
+    margin-left: 0;
+    margin-top: 3rem;
+  }
+}
+
+/* large devices */
+@media (min-width: 800px) {
+  .sm {
+    display: none;
+  }
+  .lg {
+    display: inherit;
+  }
+  .content {
+    margin-left: 200px;
+    margin-top: 0;
+  }
 }

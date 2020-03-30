@@ -1,21 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { HashRouter, Switch, Route } from 'react-router-dom';
 
-import './App.css';
+import css from './App.module.css';
+import TitleContext from './components/TitleContext';
 
 import Home from './routes/__default__/Home';
 import Stats from './routes/stats/Stats';
+import NavMenu from './components/nav-menu/NavMenu';
+import PageTitle from './components/page-title/PageTitle';
 
 function App() {
+  const [title, setTitle] = useState('');
+
   return (
-    <div className="App">
+    <TitleContext.Provider value={{title, setTitle}}>
       <HashRouter>
-        <Switch>
-          <Route path="/stats" component={Stats} />
-          <Route path="/" component={Home} />
-        </Switch>
+        <div className={css.App}>
+          <NavMenu />
+          <div className={[css.MainContent, 'content'].join(' ')}>
+            <PageTitle />
+              <Switch>
+                <Route path="/stats" component={Stats} />
+                <Route path="/" component={Home} />
+              </Switch>
+          </div>
+        </div>
       </HashRouter>
-    </div>
+    </TitleContext.Provider>
   );
 }
 
