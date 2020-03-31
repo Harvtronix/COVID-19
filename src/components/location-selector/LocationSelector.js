@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import './LocationSelector.module.css';
+
 function LocationSelector(props) {
   const {selectedProvinceState, selectedCountryRegion, countryRegionsToProvinceStates, onCountryRegionChange, onProvinceStateChange} = props;
 
@@ -11,19 +13,19 @@ function LocationSelector(props) {
 
   return (
     <div style={{marginBottom: '1em'}}>
-        <select
-          onChange={onCountryRegionChange}
-          value={selectedCountryRegion || ''}
-          style={{margin: '1rem'}}
-        >
-          <option key={''} value="">- All Regions -</option>
-          {countryRegionOptions.map((countryRegion) => <option key={countryRegion} value={countryRegion}>{countryRegion}</option> )}
-        </select>
+      <select
+        onChange={onCountryRegionChange}
+        value={selectedCountryRegion || ''}
+        style={{margin: '1rem'}}
+      >
+        <option key={''} value="">- All Regions -</option>
+        {countryRegionOptions.map((countryRegion) => <option key={countryRegion} value={countryRegion}>{countryRegion}</option> )}
+      </select>
 
-        <select onChange={onProvinceStateChange} value={selectedProvinceState || ''} style={{margin: '1rem'}}>
-          <option key={''} value="">- All Subregions -</option>
-          {proviceStateOptions.length > 1 && proviceStateOptions.map((provinceState) => <option key={provinceState} value={provinceState}>{provinceState}</option> )}
-        </select>
+      <select onChange={onProvinceStateChange} value={selectedProvinceState || ''} style={{margin: '1rem'}}>
+        <option key={''} value="">- All Subregions -</option>
+        {proviceStateOptions.length > 1 && proviceStateOptions.map((provinceState) => <option key={provinceState} value={provinceState}>{provinceState}</option> )}
+      </select>
     </div>
   );
 }

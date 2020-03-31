@@ -10,6 +10,9 @@ import NavMenu from './components/nav-menu/NavMenu';
 import PageTitle from './components/page-title/PageTitle';
 
 function App() {
+  /**
+   * Backing state for the Title Context
+   */
   const [title, setTitle] = useState('');
 
   return (

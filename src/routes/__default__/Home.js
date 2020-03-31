@@ -6,7 +6,7 @@ import TitleContext from '../../components/TitleContext';
 import css from './Home.module.css';
 
 import BasicLineChart from './charts/line/BasicLineChart';
-import LocationSelector from '../../components/LocationSelector';
+import LocationSelector from '../../components/location-selector/LocationSelector';
 import Colors from '../../modules/Colors';
 import tableData from '../../data/tableData.json';
 import sortedCountryRegionsToProvinceStates from '../../data/sortedCountryRegionsToProvinceStates.json';
