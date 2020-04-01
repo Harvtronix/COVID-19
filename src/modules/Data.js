@@ -67,15 +67,15 @@ function getSeriesData(countryRegion, provinceState) {
 function getTotalConfirmed(countryRegion, provinceState) {
   // TODO: use real data!
 
-  return '123,456';
+  return 857487;
 }
 
 function getLastThreeDaysConfirmed(countryRegion, provinceState) {
   // TODO: use real data!
   return [
-    1234,
-    1000,
-    626
+    857487,
+    782365,
+    720117
   ]
 }
 

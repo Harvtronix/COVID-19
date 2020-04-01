@@ -22,6 +22,34 @@ const calculateThreeDayAverage = (lastThreeDaysData) => {
   return '2.558 ↓'
 }
 
+const calculateDaysUntilTotalInfection = (totalConfirmed, lastThreeDaysData) => {
+  let today = lastThreeDaysData[0] - lastThreeDaysData[1];
+  let yesterday = lastThreeDaysData[1] - lastThreeDaysData[2];
+
+  let rateDelta = today - yesterday;
+
+  if (today === 0 && yesterday === 0) {
+    return 'Never';
+  }
+
+  if (rateDelta < 0) {
+    rateDelta = today;
+  }
+
+  let infected = totalConfirmed;
+  const targetNumber = 7530000000; // 7.53 billion
+  let days = 0;
+  let currentRate = today + rateDelta;
+
+  while (infected < targetNumber) {
+    infected += currentRate;
+    currentRate += rateDelta;
+    days++;
+  }
+
+  return days;
+}
+
 const Right = ({
   totalConfirmed,
   lastThreeDaysConfirmed
@@ -52,6 +80,15 @@ const Right = ({
         </StatCard.Header>
         <StatCard.Content>
           {calculateThreeDayAverage(lastThreeDaysConfirmed)}
+        </StatCard.Content>
+      </StatCard.Container>
+
+      <StatCard.Container>
+        <StatCard.Header>
+          Days Until 100% Infection
+        </StatCard.Header>
+        <StatCard.Content>
+          {calculateDaysUntilTotalInfection(totalConfirmed, lastThreeDaysConfirmed)}
         </StatCard.Content>
       </StatCard.Container>
     </div>
