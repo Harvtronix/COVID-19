@@ -1,31 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './LocationSelector.module.css';
+import Data from '../../modules/Data';
 
-function LocationSelector(props) {
-  const {selectedProvinceState, selectedCountryRegion, countryRegionsToProvinceStates, onCountryRegionChange, onProvinceStateChange} = props;
+function LocationSelector({
+  selectedRegion,
+  selectedSubRegion,
+  onRegionChange,
+  onSubRegionChange
+}) {
 
-  const countryRegionOptions = Object.keys(countryRegionsToProvinceStates).sort();
-  const proviceStateOptions = selectedCountryRegion == null
+  const regionOptions = Object.keys(Data.REGION_TO_SUB_REGION_MAP);
+  const subRegionOptions = selectedSubRegion == null
     ? []
-    : countryRegionsToProvinceStates[selectedCountryRegion].sort();
+    : Data.REGION_TO_SUB_REGION_MAP[selectedSubRegion]
 
   return (
     <div style={{marginBottom: '1em'}}>
-      <select
-        onChange={onCountryRegionChange}
-        value={selectedCountryRegion || ''}
-        style={{margin: '1rem'}}
-      >
-        <option key={''} value="">- All Regions -</option>
-        {countryRegionOptions.map((countryRegion) => <option key={countryRegion} value={countryRegion}>{countryRegion}</option> )}
-      </select>
+        <select
+          onChange={onRegionChange}
+          value={selectedSubRegion || ''}
+          style={{margin: '1rem'}}
+        >
+          <option key={''} value="">- All Regions -</option>
+          {regionOptions.map((countryRegion) => <option key={countryRegion} value={countryRegion}>{countryRegion}</option> )}
+        </select>
 
-      <select onChange={onProvinceStateChange} value={selectedProvinceState || ''} style={{margin: '1rem'}}>
-        <option key={''} value="">- All Subregions -</option>
-        {proviceStateOptions.length > 1 && proviceStateOptions.map((provinceState) => <option key={provinceState} value={provinceState}>{provinceState}</option> )}
-      </select>
+        <select onChange={onSubRegionChange} value={selectedRegion || ''} style={{margin: '1rem'}}>
+          <option key={''} value="">- All Subregions -</option>
+          {subRegionOptions.length > 1 && subRegionOptions.map((provinceState) => <option key={provinceState} value={provinceState}>{provinceState}</option> )}
+        </select>
     </div>
   );
 }
@@ -33,14 +37,13 @@ function LocationSelector(props) {
 export default LocationSelector;
 
 LocationSelector.defaultProps = {
-  selectedProvinceState: null,
-  selectedCountryRegion: null,
+  selectedRegion: null,
+  selectedSubRegion: null,
 };
 
 LocationSelector.propTypes = {
-  onCountryRegionChange: PropTypes.func,
-  onProvinceStateChange: PropTypes.func,
-  selectedProvinceState: PropTypes.string,
-  selectedCountryRegion: PropTypes.string,
-  countryRegionsToProvinceStates: PropTypes.objectOf(PropTypes.any).isRequired,
+  onRegionChange: PropTypes.func.isRequired,
+  onSubRegionChange: PropTypes.func.isRequired,
+  selectedRegion: PropTypes.string,
+  selectedSubRegion: PropTypes.string,
 };

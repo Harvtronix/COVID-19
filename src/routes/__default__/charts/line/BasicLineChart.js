@@ -1,9 +1,24 @@
 import React from 'react';
+import PropTypes from 'prop-types'
+
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 import css from './BasicLineChart.module.css'
 
 import Colors from '../../../../modules/Colors';
+import Data from '../../../../modules/Data';
+
+const lineDefs = {
+  [Data.DATA_SERIES.CONFIRMED]: {
+    color: Colors.lineConfirmed
+  },
+  [Data.DATA_SERIES.DEATHS]: {
+    color: Colors.lineDeaths
+  },
+  [Data.DATA_SERIES.RECOVERED]: {
+    color: Colors.lineRecovered
+  }
+};
 
 const CustomizedXAxisTick = ({x, y, payload}) => {
   return (
@@ -37,7 +52,7 @@ const CustomizedYAxisTick = ({x, y, payload}) => {
   );
 }
 
-const BasicLineChart = ({chartData, caseTypeConfig}) => {
+const BasicLineChart = ({chartData}) => {
   return (
     <div style={{height: '500px'}}>
       <ResponsiveContainer>
@@ -61,7 +76,7 @@ const BasicLineChart = ({chartData, caseTypeConfig}) => {
           <Tooltip />
           <Legend stroke={Colors.primary} />
           {
-            Object.entries(caseTypeConfig).map(([key, value]) => (
+            Object.entries(lineDefs).map(([key, value]) => (
               <Line
                 type="monotone"
                 dataKey={key}
@@ -78,5 +93,9 @@ const BasicLineChart = ({chartData, caseTypeConfig}) => {
     </div>
   );
 };
+
+BasicLineChart.propTypes = {
+  chartData: PropTypes.arrayOf(PropTypes.object).isRequired
+}
 
 export default BasicLineChart;

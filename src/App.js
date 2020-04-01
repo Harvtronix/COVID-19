@@ -4,7 +4,7 @@ import { HashRouter, Switch, Route } from 'react-router-dom';
 import css from './App.module.css';
 import TitleContext from './components/TitleContext';
 
-import Home from './routes/__default__/Home';
+import Overview from './routes/__default__/Overview';
 import Stats from './routes/stats/Stats';
 import NavMenu from './components/nav-menu/NavMenu';
 import PageTitle from './components/page-title/PageTitle';
@@ -24,7 +24,7 @@ function App() {
             <PageTitle />
               <Switch>
                 <Route path="/stats" component={Stats} />
-                <Route path="/" component={Home} />
+                <Route path="/" component={Overview} />
               </Switch>
           </div>
         </div>
