@@ -3,8 +3,8 @@ import React, { useState, useContext, useEffect, useMemo } from 'react';
 import css from './Overview.module.css';
 
 import TitleContext from '../../components/TitleContext';
-import Left from './left/Left';
-import Right from './right/Right';
+import Left from './Left/Left';
+import Right from './Right/Right';
 import Data from '../../modules/Data';
 
 const Overview = () => {

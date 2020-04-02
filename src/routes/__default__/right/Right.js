@@ -2,7 +2,7 @@ import React from 'react';
 
 import css from '../Overview.module.css';
 
-import StatCard from './stat-card/StatCard';
+import StatCard from './StatCard/StatCard';
 
 const calculateDayToDayValue = (lastThreeDaysData) => {
   // TODO: for real stuff!

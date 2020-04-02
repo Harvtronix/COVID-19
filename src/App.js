@@ -6,8 +6,8 @@ import TitleContext from './components/TitleContext';
 
 import Overview from './routes/__default__/Overview';
 import Stats from './routes/stats/Stats';
-import NavMenu from './components/nav-menu/NavMenu';
-import PageTitle from './components/page-title/PageTitle';
+import NavMenu from './components/NavMenu/NavMenu';
+import PageTitle from './components/PageTitle/PageTitle';
 
 function App() {
   /**

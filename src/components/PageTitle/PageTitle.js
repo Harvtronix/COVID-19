@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
 import css from './PageTitle.module.css';
-import TitleContext from '../../components/TitleContext';
+import TitleContext from '../TitleContext';
 
 const PageTitle = () => {
   const {title} = useContext(TitleContext);
