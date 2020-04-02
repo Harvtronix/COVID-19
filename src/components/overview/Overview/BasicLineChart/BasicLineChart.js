@@ -52,12 +52,12 @@ const CustomizedYAxisTick = ({x, y, payload}) => {
   );
 }
 
-const BasicLineChart = ({chartData}) => {
+const BasicLineChart = ({seriesData}) => {
   return (
     <div style={{height: '500px'}}>
       <ResponsiveContainer>
         <LineChart
-          data={chartData}
+          data={seriesData}
           margin={{
             top: 0, right: 4, left: 8, bottom: 0,
           }}
@@ -95,7 +95,7 @@ const BasicLineChart = ({chartData}) => {
 };
 
 BasicLineChart.propTypes = {
-  chartData: PropTypes.arrayOf(PropTypes.object).isRequired
+  seriesData: PropTypes.arrayOf(PropTypes.object).isRequired
 }
 
 export default BasicLineChart;

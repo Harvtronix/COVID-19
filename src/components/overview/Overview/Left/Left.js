@@ -10,7 +10,7 @@ const Left = ({
   countryRegion,
   setCountryRegion,
   setProvinceState,
-  chartData
+  seriesData
 }) => {
   return (
     <div className={css.Left}>
@@ -26,7 +26,7 @@ const Left = ({
         }}
       />
       <div className="LineChartContainer">
-        <BasicLineChart chartData={chartData} />
+        <BasicLineChart seriesData={seriesData} />
       </div>
     </div>
   )

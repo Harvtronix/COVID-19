@@ -15,7 +15,7 @@ const Overview = () => {
   // Queries are expensive, so memoize them. This will also prevent unnecessary re-renders of the
   // line chart.
   const [
-    chartData,
+    seriesData,
     totalConfirmed,
     lastThreeDaysConfirmed
   ] = useMemo(() => {
@@ -44,7 +44,7 @@ const Overview = () => {
   return (
     <div className={css.Container}>
       <Left
-        chartData={chartData}
+        seriesData={seriesData}
         countryRegion={countryRegion}
         provinceState={provinceState}
         setCountryRegion={setCountryRegion}
