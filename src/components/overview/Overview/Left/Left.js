@@ -1,9 +1,9 @@
 import React from 'react';
 
-import css from '../Overview.module.css';
+import css from '../../Overview.module.css';
 
 import BasicLineChart from '../BasicLineChart/BasicLineChart';
-import LocationSelector from '../../../components/LocationSelector/LocationSelector';
+import LocationSelector from '../../../_shared/LocationSelector/LocationSelector';
 
 const Left = ({
   provinceState,

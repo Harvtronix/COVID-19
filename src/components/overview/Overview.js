@@ -2,9 +2,9 @@ import React, { useState, useContext, useEffect, useMemo } from 'react';
 
 import css from './Overview.module.css';
 
-import TitleContext from '../../components/TitleContext';
-import Left from './Left/Left';
-import Right from './Right/Right';
+import TitleContext from '../../components/_shared/TitleContext';
+import Left from './Overview/Left/Left';
+import Right from './Overview/Right/Right';
 import Data from '../../modules/Data';
 
 const Overview = () => {

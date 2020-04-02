@@ -5,8 +5,8 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 
 import css from './BasicLineChart.module.css'
 
-import Colors from '../../../modules/Colors';
-import Data from '../../../modules/Data';
+import Colors from '../../../../modules/Colors';
+import Data from '../../../../modules/Data';
 
 const lineDefs = {
   [Data.DATA_SERIES.CONFIRMED]: {

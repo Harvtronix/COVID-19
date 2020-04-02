@@ -1,6 +1,6 @@
 import React from 'react';
 
-import css from '../Overview.module.css';
+import css from '../../Overview.module.css';
 
 import StatCard from './StatCard/StatCard';
 

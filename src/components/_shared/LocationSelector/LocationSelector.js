@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Data from '../../modules/Data';
+import Data from '../../../modules/Data';
 
 function LocationSelector({
   selectedRegion,
