@@ -19,7 +19,7 @@ const formatDayToDayValue = (seriesData) => {
   let percent = (100 * ((today - yesterday) / yesterday)).toFixed(1);
 
   let spanClass = percent <= 0 ? css.good : css.bad;
-  let plusMinus = percent >= 0 ? '+' : '-'
+  let plusMinus = percent >= 0 ? '+' : ''
 
   return (
     <>
