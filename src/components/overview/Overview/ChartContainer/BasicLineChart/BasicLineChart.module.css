@@ -1,0 +1,8 @@
+.TickTextX {
+    text-anchor: end;
+    transform: rotate(-35deg);
+}
+
+.TickTextY {
+    text-anchor: end;
+}

@@ -1,0 +1,28 @@
+.Container {
+    display: flex;
+    flex-flow: row wrap;
+    margin: 0.5rem;
+}
+
+.ChartContainer {
+    flex: 2;
+    min-width: 500px;
+    margin: 0.5rem;
+    margin-bottom: 4rem;
+}
+
+.StatsContainer {
+    flex: 1;
+
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+}
+
+.bad {
+    color: red;
+}
+
+.good {
+    color: green;
+}
