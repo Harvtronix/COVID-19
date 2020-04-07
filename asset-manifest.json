@@ -1,12 +1,12 @@
 {
   "files": {
-    "main.css": "./static/css/main.54ab8922.chunk.css",
-    "main.js": "./static/js/main.0a4831ab.chunk.js",
-    "main.js.map": "./static/js/main.0a4831ab.chunk.js.map",
+    "main.css": "./static/css/main.b0fe3816.chunk.css",
+    "main.js": "./static/js/main.0d120d15.chunk.js",
+    "main.js.map": "./static/js/main.0d120d15.chunk.js.map",
     "runtime-main.js": "./static/js/runtime-main.f38cd277.js",
     "runtime-main.js.map": "./static/js/runtime-main.f38cd277.js.map",
-    "static/js/2.b4ab1526.chunk.js": "./static/js/2.b4ab1526.chunk.js",
-    "static/js/2.b4ab1526.chunk.js.map": "./static/js/2.b4ab1526.chunk.js.map",
+    "static/js/2.0167a157.chunk.js": "./static/js/2.0167a157.chunk.js",
+    "static/js/2.0167a157.chunk.js.map": "./static/js/2.0167a157.chunk.js.map",
     "data/.gitignore": "./data/.gitignore",
     "data/README.md": "./data/README.md",
     "data/time_series_covid19_confirmed_US.csv": "./data/time_series_covid19_confirmed_US.csv",
@@ -15,15 +15,15 @@
     "data/time_series_covid19_deaths_global.csv": "./data/time_series_covid19_deaths_global.csv",
     "data/time_series_covid19_recovered_global.csv": "./data/time_series_covid19_recovered_global.csv",
     "index.html": "./index.html",
-    "precache-manifest.f93a20db5ef19679f1d3c28035a2f3f1.js": "./precache-manifest.f93a20db5ef19679f1d3c28035a2f3f1.js",
+    "precache-manifest.127715e14e117c9f0a93fec5919e4f36.js": "./precache-manifest.127715e14e117c9f0a93fec5919e4f36.js",
     "service-worker.js": "./service-worker.js",
-    "static/css/main.54ab8922.chunk.css.map": "./static/css/main.54ab8922.chunk.css.map",
-    "static/js/2.b4ab1526.chunk.js.LICENSE.txt": "./static/js/2.b4ab1526.chunk.js.LICENSE.txt"
+    "static/css/main.b0fe3816.chunk.css.map": "./static/css/main.b0fe3816.chunk.css.map",
+    "static/js/2.0167a157.chunk.js.LICENSE.txt": "./static/js/2.0167a157.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.f38cd277.js",
-    "static/js/2.b4ab1526.chunk.js",
-    "static/css/main.54ab8922.chunk.css",
-    "static/js/main.0a4831ab.chunk.js"
+    "static/js/2.0167a157.chunk.js",
+    "static/css/main.b0fe3816.chunk.css",
+    "static/js/main.0d120d15.chunk.js"
   ]
 }
