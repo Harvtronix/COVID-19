@@ -37,7 +37,7 @@ function setup() {
   alasql.tables.cases.data = tableData;
 }
 
-function getSeriesData(countryRegion, provinceState) {
+function querySeriesData(countryRegion, provinceState) {
   let query = `
     SELECT date,
     ${Object.values(DATA_SERIES).map((series) => `sum(${series}) as ${series}`).join(', ')}
@@ -64,21 +64,6 @@ function getSeriesData(countryRegion, provinceState) {
   return results;
 }
 
-function getTotalConfirmed(countryRegion, provinceState) {
-  // TODO: use real data!
-
-  return 857487;
-}
-
-function getLastThreeDaysConfirmed(countryRegion, provinceState) {
-  // TODO: use real data!
-  return [
-    857487,
-    782365,
-    720117
-  ]
-}
-
 export default {
   // Constants
   CASES_TABLE_NAME,
@@ -87,7 +72,5 @@ export default {
 
   // Functions
   setup,
-  getSeriesData,
-  getTotalConfirmed,
-  getLastThreeDaysConfirmed
+  querySeriesData,
 }

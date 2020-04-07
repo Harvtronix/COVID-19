@@ -2,10 +2,10 @@ import React from 'react';
 
 import css from '../../Overview.module.css';
 
-import BasicLineChart from '../BasicLineChart/BasicLineChart';
+import BasicLineChart from './BasicLineChart/BasicLineChart';
 import LocationSelector from '../../../_shared/LocationSelector/LocationSelector';
 
-const Left = ({
+const ChartContainer = ({
   provinceState,
   countryRegion,
   setCountryRegion,
@@ -13,7 +13,7 @@ const Left = ({
   seriesData
 }) => {
   return (
-    <div className={css.Left}>
+    <div className={css.ChartContainer}>
       <LocationSelector
         selectedRegion={provinceState}
         selectedSubRegion={countryRegion}
@@ -32,4 +32,4 @@ const Left = ({
   )
 }
 
-export default Left;
+export default ChartContainer;

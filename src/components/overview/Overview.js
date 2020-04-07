@@ -3,8 +3,8 @@ import React, { useState, useContext, useEffect, useMemo } from 'react';
 import css from './Overview.module.css';
 
 import TitleContext from '../../components/_shared/TitleContext';
-import Left from './Overview/Left/Left';
-import Right from './Overview/Right/Right';
+import ChartContainer from './Overview/ChartContainer/ChartContainer'
+import StatsContainer from './Overview/StatsContainer/StatsContainer';
 import Data from '../../modules/Data';
 
 const Overview = () => {
@@ -14,17 +14,9 @@ const Overview = () => {
 
   // Queries are expensive, so memoize them. This will also prevent unnecessary re-renders of the
   // line chart.
-  const [
-    seriesData,
-    totalConfirmed,
-    lastThreeDaysConfirmed
-  ] = useMemo(() => {
-    return [
-      Data.getSeriesData(countryRegion, provinceState),
-      Data.getTotalConfirmed(countryRegion, provinceState),
-      Data.getLastThreeDaysConfirmed(countryRegion, provinceState)
-    ]
-  }, [countryRegion, provinceState])
+  const seriesData = useMemo(() => {
+    return Data.querySeriesData(countryRegion, provinceState);
+  }, [countryRegion, provinceState]);
 
   /**
    * Update title when region or sub-region changes
@@ -43,16 +35,15 @@ const Overview = () => {
 
   return (
     <div className={css.Container}>
-      <Left
+      <ChartContainer
         seriesData={seriesData}
         countryRegion={countryRegion}
         provinceState={provinceState}
         setCountryRegion={setCountryRegion}
         setProvinceState={setProvinceState}
       />
-      <Right
-        totalConfirmed={totalConfirmed}
-        lastThreeDaysConfirmed={lastThreeDaysConfirmed}
+      <StatsContainer
+        seriesData={seriesData}
       />
     </div>
   )
