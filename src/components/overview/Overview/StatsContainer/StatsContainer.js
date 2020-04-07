@@ -24,7 +24,7 @@ const formatDayToDayValue = (seriesData) => {
   return (
     <>
       <div>
-        {`${yesterday} → ${today}`}
+        {`+${yesterday} → +${today}`}
       </div>
       <div>
         (<span className={spanClass}>{`${plusMinus}${percent}%`}</span>)

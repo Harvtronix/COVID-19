@@ -20,9 +20,9 @@
 }
 
 .bad {
-    color: red;
+    color: rgb(184, 55, 74);
 }
 
 .good {
-    color: green;
+    color: rgb(54, 184, 106);
 }
