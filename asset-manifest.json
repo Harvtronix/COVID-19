@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "./static/css/main.30d4926c.chunk.css",
-    "main.js": "./static/js/main.c06e9e43.chunk.js",
-    "main.js.map": "./static/js/main.c06e9e43.chunk.js.map",
+    "main.js": "./static/js/main.b44af804.chunk.js",
+    "main.js.map": "./static/js/main.b44af804.chunk.js.map",
     "runtime-main.js": "./static/js/runtime-main.f38cd277.js",
     "runtime-main.js.map": "./static/js/runtime-main.f38cd277.js.map",
     "static/js/2.0167a157.chunk.js": "./static/js/2.0167a157.chunk.js",
@@ -16,7 +16,7 @@
     "data/time_series_covid19_deaths_global.csv": "./data/time_series_covid19_deaths_global.csv",
     "data/time_series_covid19_recovered_global.csv": "./data/time_series_covid19_recovered_global.csv",
     "index.html": "./index.html",
-    "precache-manifest.8efaa61237e65fdb117d094350209d6d.js": "./precache-manifest.8efaa61237e65fdb117d094350209d6d.js",
+    "precache-manifest.e571cc92cc491db7024c7cb8c5ddf32c.js": "./precache-manifest.e571cc92cc491db7024c7cb8c5ddf32c.js",
     "service-worker.js": "./service-worker.js",
     "static/css/main.30d4926c.chunk.css.map": "./static/css/main.30d4926c.chunk.css.map",
     "static/js/2.0167a157.chunk.js.LICENSE.txt": "./static/js/2.0167a157.chunk.js.LICENSE.txt"
@@ -25,6 +25,6 @@
     "static/js/runtime-main.f38cd277.js",
     "static/js/2.0167a157.chunk.js",
     "static/css/main.30d4926c.chunk.css",
-    "static/js/main.c06e9e43.chunk.js"
+    "static/js/main.b44af804.chunk.js"
   ]
 }
